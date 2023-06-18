@@ -25,5 +25,18 @@ const db = mysql.createConnection(
   console.log(`Connected to the employees_db database.`)
 );
 
+db.connect((err) => {
+  if (err) {
+    console.error('Error Connecting to Database', err);
+    return;
+  }
+  console.log('Connected to Database');
 
-cli.run();
+  // Connects the command line prompt to the database
+  cli.run();
+});
+
+// Application listening
+app.listen(PORT, () =>{
+  console.log(`Server is running on port ${PORT}`);
+});
