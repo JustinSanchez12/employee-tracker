@@ -1,25 +1,57 @@
 const inquirer = require('inquirer');
+const mysql = require('mysql2');
 
+//Conecting to the database
 class CLI {
-  constructor(db){
+  constructor(db) {
     this.db = db;
   }
+
+  //Inquirer node to bring up command prompt
   run() {
     return inquirer
       .prompt([
         {
           type: 'list',
-          name: 'employee',
+          name: 'action',
           message: 'What would you like to do?',
-          choices: ['View All Employees', 'Add Employee', 'Update Employee Role'],
+          choices: [
+            'View All Departments',
+            'View All Roles',
+            'View All Employees',
+            'Add a Department',
+            'Add a Role',
+            'Add an Employee',
+            'Update an Employee Role',
+          ],
         },
       ])
       .then((answers) => {
-        const { employees } = answers;
-        switch(employees) {
+        const { action } = answers;
+        switch (action) {
+          case 'View All Departments':
+            this.viewAllDepartments();
+            break;
+          case 'View All Roles':
+            this.viewAllRoles();
+            break;
           case 'View All Employees':
             this.viewAllEmployees();
             break;
+          case 'Add a Department':
+            this.addDepartment();
+            break;
+          case 'Add a Role':
+            this.addRole();
+            break;
+          case 'Add an Employee':
+            this.addEmployee();
+            break;
+          case 'Update an Employee Role':
+            this.updateEmployeeRole();
+            break;
+          default:
+            console.log('Invalid option');
         }
       })
       .catch((err) => {
@@ -27,6 +59,7 @@ class CLI {
         console.log('Oops. Something went wrong.');
       });
   }
+
   viewAllEmployees() {
     const query = `
       SELECT 
@@ -51,11 +84,8 @@ class CLI {
       console.table(results);
       this.run();
     });
-  };
+  }
+
 }
-
-
-
-  
 
 module.exports = CLI;
