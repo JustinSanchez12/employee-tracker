@@ -2,7 +2,7 @@ const express = require('express');
 // Import and require mysql2
 const mysql = require('mysql2');
 const CLI = require('./index.js');
-const cli = new CLI();
+
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -33,6 +33,7 @@ db.connect((err) => {
   console.log('Connected to Database');
 
   // Connects the command line prompt to the database
+  const cli = new CLI(db);
   cli.run();
 });
 
